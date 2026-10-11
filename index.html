@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Mobile Market | Premium Phones</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080808;color:#f7f3eb;font-family:Arial,sans-serif}
+header{padding:22px 6%;border-bottom:1px solid #292929;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#080808;z-index:5}
+.logo{color:#d8b56b;font-weight:bold;letter-spacing:3px;font-size:20px}
+nav a{color:#eee;text-decoration:none;margin-left:18px;font-size:14px}
+.hero{padding:75px 7%;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px}
+.tag{color:#d8b56b;letter-spacing:3px;font-size:12px}
+h1{font-size:clamp(42px,7vw,76px);line-height:1.04;margin:18px 0}
+h1 span{color:#d8b56b}
+p{color:#aaa;line-height:1.8}
+.btn{display:inline-block;background:#d8b56b;color:#111;padding:14px 20px;text-decoration:none;border-radius:4px;font-weight:bold;margin-top:15px}
+.art{height:320px;border:1px solid #554426;border-radius:16px;background:radial-gradient(ellipse,#493719,#15120d 60%,#090909);display:flex;align-items:center;justify-content:center;gap:15px}
+.phone{width:105px;height:210px;border:3px solid #b89b5d;border-radius:23px;background:linear-gradient(145deg,#38301e,#090909);box-shadow:0 20px 40px #000;transform:rotate(-8deg);display:grid;place-items:center;color:#d8b56b;font-size:42px;font-weight:bold}
+.phone:nth-child(2){transform:rotate(9deg);height:180px;width:90px}
+section{padding:40px 6%}
+h2{font-size:32px}
+.tools{display:flex;gap:10px;margin:20px 0}
+input,select{background:#151515;color:white;border:1px solid #444;padding:13px;border-radius:5px;min-width:0}
+input{flex:1;width:60%}
+select{max-width:48%}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#121212;border:1px solid #292929;border-radius:10px;padding:18px}
+.device{height:145px;background:radial-gradient(ellipse,#392d17,#111);display:grid;place-items:center;border-radius:6px;margin-bottom:18px}
+.device div{height:100px;width:54px;border:2px solid #b89b5d;border-radius:12px;background:linear-gradient(135deg,#282828,#080808)}
+.card h3{margin:10px 0}
+.muted{color:#999;font-size:13px;line-height:1.7}
+.price{color:#d8b56b;font-weight:bold;font-size:21px;margin:15px 0}
+button{background:#d8b56b;border:0;padding:10px 12px;border-radius:4px;cursor:pointer;font-weight:bold}
+.compare{display:flex;align-items:center;gap:8px;margin-top:12px;color:#aaa;font-size:13px}
+.compare input{width:auto}
+#results{overflow:auto}
+table{border-collapse:collapse;width:100%;margin-top:20px}
+td,th{padding:12px;border:1px solid #333;text-align:left}
+footer{padding:25px 6%;border-top:1px solid #292929;color:#888;font-size:13px}
+@media(max-width:700px){.hero{grid-template-columns:1fr;padding-top:45px}.art{height:250px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:12px}nav a{margin-left:8px;font-size:12px}.logo{font-size:15px;letter-spacing:2px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.hero h1{font-size:45px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">MOBILE MARKET</div>
+<nav><a href="#phones">Phones</a><a href="#compare">Compare</a></nav>
+</header>
+
+<main>
+<div class="hero">
+<div>
+<div class="tag">SMARTER PHONE SHOPPING</div>
+<h1>Find your<br>next <span>phone.</span></h1>
+<p>Explore smartphones, compare prices and discover your next favourite device. Premium choices, made simple.</p>
+<a class="btn" href="#phones">Explore phones →</a>
+</div>
+<div class="art"><div class="phone">M</div><div class="phone">M</div></div>
+</div>
+
+<section id="phones">
+<div class="tag">THE COLLECTION</div>
+<h2>Discover devices</h2>
+<p>Search phones and filter by budget.</p>
+<div class="tools">
+<input id="search" placeholder="Search phones or brands..." oninput="render()">
+<select id="budget" onchange="render()">
+<option value="all">All budgets</option>
+<option value="30000">Under ₹30,000</option>
+<option value="50000">Under ₹50,000</option>
+<option value="80000">Under ₹80,000</option>
+</select>
+</div>
+<div class="grid" id="grid"></div>
+<p class="muted">Prices and specifications are sample estimates for demonstration only. Verify current prices with official sellers.</p>
+</section>
+
+<section id="compare">
+<div class="tag">SIDE BY SIDE</div>
+<h2>Compare your choices</h2>
+<p>Select up to three phones using the Compare buttons.</p>
+<div id="results"></div>
+</section>
+</main>
+<footer>© <span id="year"></span> Mobile Market · Smartphone discovery concept</footer>
+
+<script>
+const phones=[
+{name:"iPhone 16",brand:"Apple",price:69900,screen:"6.1-inch",chip:"A18"},
+{name:"Galaxy S25",brand:"Samsung",price:80999,screen:"6.2-inch",chip:"Snapdragon"},
+{name:"Pixel 9a",brand:"Google",price:49999,screen:"6.3-inch",chip:"Google Tensor"},
+{name:"OnePlus 13R",brand:"OnePlus",price:42999,screen:"6.78-inch",chip:"Snapdragon"},
+{name:"Nothing Phone (3a)",brand:"Nothing",price:24999,screen:"6.77-inch",chip:"Snapdragon"},
+{name:"Redmi Note 14 Pro+",brand:"Xiaomi",price:30999,screen:"6.67-inch",chip:"Dimensity"}
+];
+let selected=[];
+function money(n){return "₹"+n.toLocaleString("en-IN")}
+function render(){
+const q=document.getElementById("search").value.toLowerCase();
+const b=document.getElementById("budget").value;
+const list=phones.filter(p=>(p.name+" "+p.brand).toLowerCase().includes(q)&&(b==="all"||p.price<=+b));
+document.getElementById("grid").innerHTML=list.map(p=>{
+const i=phones.indexOf(p);
+return `<article class="card">
+<div class="device"><div></div></div>
+<div class="tag">${p.brand}</div><h3>${p.name}</h3>
+<div class="muted">${p.screen} display<br>${p.chip} processor</div>
+<div class="price">${money(p.price)}</div>
+<button onclick="toggle(${i})">${selected.includes(i)?"Remove":"Compare"}</button>
+</article>`;
+}).join("")||"<p>No matching phones found.</p>";
+showCompare();
+}
+function toggle(i){
+if(selected.includes(i))selected=selected.filter(n=>n!==i);
+else if(selected.length<3)selected.push(i);
+else{alert("You can compare up to 3 phones.");return}
+render();
+}
+function showCompare(){
+const el=document.getElementById("results");
+if(!selected.length){el.innerHTML='<p class="muted">Your selected phones will appear here.</p>';return}
+const rows=[["Phone",p=>p.name],["Price",p=>money(p.price)],["Brand",p=>p.brand],["Display",p=>p.screen],["Processor",p=>p.chip]];
+el.innerHTML="<table><tr><th>Feature</th>"+selected.map(i=>"<th>"+phones[i].name+"</th>").join("")+"</tr>"+
+rows.map(r=>"<tr><td>"+r[0]+"</td>"+selected.map(i=>"<td>"+r[1](phones[i])+"</td>").join("")+"</tr>").join("")+"</table>";
+}
+document.getElementById("year").textContent=new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
